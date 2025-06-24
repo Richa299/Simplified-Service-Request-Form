@@ -1,4 +1,12 @@
+import { useContext } from "react";
+import { FormContext } from "../context/formContext";
+
 export default function ParentDetail() {
+  const { formData, setFormData } = useContext(FormContext);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((formData) => ({ ...formData, [name]: value }));
+  };
   return (
     <>
       <div>
@@ -6,9 +14,9 @@ export default function ParentDetail() {
           Name
           <input
             type="text"
-            value=""
-            name="name"
-            //   onChange={handleChange}
+            value={formData.parentName}
+            name="parentName"
+            onChange={handleChange}
           />
         </label>
       </div>
@@ -17,9 +25,9 @@ export default function ParentDetail() {
           Email:
           <input
             type="email"
-            value=""
+            value={formData.email}
             name="email"
-            //   onChange={handleChange}
+            onChange={handleChange}
           />
         </label>
       </div>
@@ -27,10 +35,10 @@ export default function ParentDetail() {
         <label>
           Phone Number:
           <input
-            type="telephone"
-            value=""
-            name="phone"
-            //   onChange={handleChange}
+            type="tel"
+            value={formData.contact}
+            name="contact"
+            onChange={handleChange}
           />
           <textarea />
         </label>

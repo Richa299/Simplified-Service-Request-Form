@@ -5,23 +5,17 @@ import { FormContext } from "../context/formContext";
 
 export default function Form() {
   const { formData, setFormData } = useContext(FormContext);
-  console.log(formData);
-  const [data, setData] = useState({
-    name: "",
-    age: "",
-    diagnosis: "",
-    schoolType: "",
-  });
+
   const [shift, setShift] = useState(false);
   const [count, setCount] = useState(1);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    // console.log(e.target)/;
-    setData((data) => ({ ...data, [name]: value }));
+
+    setFormData((formData) => ({ ...formData, [name]: value }));
   };
-  console.log(data);
+
   const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (count < 3) {
@@ -38,7 +32,10 @@ export default function Form() {
       setCount((count) => count - 1);
     }
   };
-  console.log(count);
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <form
@@ -57,8 +54,8 @@ export default function Form() {
                 Name:{" "}
                 <input
                   type="text"
-                  value={data.name}
-                  name="name"
+                  value={formData.childName}
+                  name="childName"
                   onChange={handleChange}
                 />
               </label>
@@ -68,7 +65,7 @@ export default function Form() {
                 Age:{" "}
                 <input
                   type="number"
-                  value={data.age}
+                  value={formData.age}
                   name="age"
                   onChange={handleChange}
                 />
@@ -77,7 +74,11 @@ export default function Form() {
             <div>
               <label>
                 Diagnosis:
-                <select name="diagnosis" onChange={handleChange}>
+                <select
+                  name="diagnosis"
+                  onChange={handleChange}
+                  value={formData.diagnosis}
+                >
                   <option value="Autism Spectrum Disorder">
                     Autism Spectrum Disorder
                   </option>
@@ -123,6 +124,7 @@ export default function Form() {
           <button onClick={handlePreviousButtonClick}>Previous</button>
           <button onClick={handleNextButtonClick}>Next</button>
         </div>
+        <button onClick={handleClick}>Submit</button>
       </form>
     </>
   );

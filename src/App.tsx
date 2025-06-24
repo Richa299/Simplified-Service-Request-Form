@@ -9,6 +9,7 @@ function App() {
     age: "",
     diagnosis: "",
     schoolType: "",
+    supportType: [],
     frequency: "",
     requirements: "",
     parentName: "",
