@@ -23,6 +23,7 @@ function App() {
   const [parentNameError, setParentNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [contactsError, setContactsError] = useState(false);
+  const [finalOutput, setFinalOutput] = useState(false);
   return (
     <>
       <FormContext
@@ -43,6 +44,8 @@ function App() {
           emailError,
           setContactsError,
           contactsError,
+          setFinalOutput,
+          finalOutput,
         }}
       >
         <Form />

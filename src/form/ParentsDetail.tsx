@@ -26,7 +26,6 @@ export default function ParentDetail() {
       } else {
         setDisabled(false);
         setContactsError(false);
-        setFormData((formData) => ({ ...formData, [name]: value }));
       }
     } else if (name == "parentName" && value == "") {
       setParentNameError(true);

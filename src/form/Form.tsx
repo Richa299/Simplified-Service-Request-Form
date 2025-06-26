@@ -14,6 +14,8 @@ export default function Form() {
     setParentNameError,
     setEmailError,
     setContactsError,
+    finalOutput,
+    setFinalOutput,
   } = useContext(FormContext);
 
   const [shift, setShift] = useState(false);
@@ -127,128 +129,132 @@ export default function Form() {
       setContactsError(false);
       setEmailError(false);
       setParentNameError(false);
+      setFinalOutput(true);
       console.log(formData);
     }
 
     e.preventDefault();
   };
-
   return (
     <>
-      <form className="bg-yellow-300 rounded-sm p-4 w-lg h-80 items-start">
-        {!shift && count == 1 ? (
-          <>
-            <h3 className="text-lg font-bold"> Child Details</h3>
-            <div>
-              <label>
-                Name:{" "}
-                <input
-                  type="text"
-                  value={formData.childName}
-                  name="childName"
-                  onChange={handleChange}
-                  className="border-2"
-                />
-                {childNameError && (
-                  <p className="text-red-400">Kindly enter the name</p>
-                )}
-              </label>
-            </div>
-            <div className="mt-4">
-              <label>
-                Age:{" "}
-                <input
-                  type="number"
-                  value={formData.age}
-                  name="age"
-                  min="0"
-                  max="120"
-                  onChange={handleChange}
-                  className="border-2"
-                />
-                {ageError && (
-                  <p className="text-red-400">Kindly enter the valid age</p>
-                )}
-              </label>
-            </div>
-            <div>
-              <label>
-                Diagnosis:
-                <select
-                  name="diagnosis"
-                  onChange={handleChange}
-                  value={formData.diagnosis}
-                  className="border-2"
-                >
-                  <option>Select</option>
-                  <option value="Autism Spectrum Disorder">
-                    Autism Spectrum Disorder
-                  </option>
-                  <option value="Attention Deficit Hyperactivity Disorder">
-                    Attention Deficit Hyperactivity Disorder
-                  </option>
-                  <option value="Dyscalculia">Dyscalculia</option>
-                </select>
-                {diagnosisError && (
-                  <p className="text-red-400">Kindly select the diagnosis</p>
-                )}
-              </label>
-            </div>
-            <div>
-              <label>
-                School Type:
+      {!finalOutput ? (
+        <form className="bg-yellow-300 rounded-sm p-4 w-lg h-80 items-start">
+          {!shift && count == 1 ? (
+            <>
+              <h3 className="text-lg font-bold"> Child Details</h3>
+              <div>
                 <label>
-                  Mainstream School
+                  Name:{" "}
                   <input
-                    name="schoolType"
-                    type="radio"
-                    value="Mainstream School"
+                    type="text"
+                    value={formData.childName}
+                    name="childName"
                     onChange={handleChange}
-                    checked={formData.schoolType === "Mainstream School"}
+                    className="border-2"
                   />
+                  {childNameError && (
+                    <p className="text-red-400">Kindly enter the name</p>
+                  )}
                 </label>
+              </div>
+              <div className="mt-4">
                 <label>
-                  Mainstream School with Learning Support
+                  Age:{" "}
                   <input
-                    type="radio"
-                    name="schoolType"
-                    value="Mainstream School with Learning Support"
+                    type="number"
+                    value={formData.age}
+                    name="age"
+                    min="0"
+                    max="120"
                     onChange={handleChange}
-                    checked={
-                      formData.schoolType ===
-                      "Mainstream School with Learning Support"
-                    }
+                    className="border-2"
                   />
+                  {ageError && (
+                    <p className="text-red-400">Kindly enter the valid age</p>
+                  )}
                 </label>
-              </label>
+              </div>
+              <div>
+                <label>
+                  Diagnosis:
+                  <select
+                    name="diagnosis"
+                    onChange={handleChange}
+                    value={formData.diagnosis}
+                    className="border-2"
+                  >
+                    <option>Select</option>
+                    <option value="Autism Spectrum Disorder">
+                      Autism Spectrum Disorder
+                    </option>
+                    <option value="Attention Deficit Hyperactivity Disorder">
+                      Attention Deficit Hyperactivity Disorder
+                    </option>
+                    <option value="Dyscalculia">Dyscalculia</option>
+                  </select>
+                  {diagnosisError && (
+                    <p className="text-red-400">Kindly select the diagnosis</p>
+                  )}
+                </label>
+              </div>
+              <div>
+                <label>
+                  School Type:
+                  <label>
+                    Mainstream School
+                    <input
+                      name="schoolType"
+                      type="radio"
+                      value="Mainstream School"
+                      onChange={handleChange}
+                      checked={formData.schoolType === "Mainstream School"}
+                    />
+                  </label>
+                  <label>
+                    Mainstream School with Learning Support
+                    <input
+                      type="radio"
+                      name="schoolType"
+                      value="Mainstream School with Learning Support"
+                      onChange={handleChange}
+                      checked={
+                        formData.schoolType ===
+                        "Mainstream School with Learning Support"
+                      }
+                    />
+                  </label>
+                </label>
 
-              {schoolTypeError && (
-                <p className="text-red-400">Kindly enter the schoolType</p>
-              )}
-            </div>
-          </>
-        ) : count == 2 ? (
-          <ServiceNeeds />
-        ) : count == 3 ? (
-          <ParentDetail />
-        ) : (
-          <></>
-        )}
-        <div>
-          {count !== 1 && (
-            <button onClick={handlePreviousButtonClick}>Previous</button>
-          )}
-          {count !== 3 ? (
-            <button onClick={handleNextButtonClick} disabled={disableNext}>
-              Next
-            </button>
+                {schoolTypeError && (
+                  <p className="text-red-400">Kindly enter the schoolType</p>
+                )}
+              </div>
+            </>
+          ) : count == 2 ? (
+            <ServiceNeeds />
+          ) : count == 3 ? (
+            <ParentDetail />
           ) : (
-            <button onClick={handleClick} disabled={disable}>
-              Submit
-            </button>
+            <></>
           )}
-        </div>
-      </form>
+          <div>
+            {count !== 1 && (
+              <button onClick={handlePreviousButtonClick}>Previous</button>
+            )}
+            {count !== 3 ? (
+              <button onClick={handleNextButtonClick} disabled={disableNext}>
+                Next
+              </button>
+            ) : (
+              <button onClick={handleClick} disabled={disable}>
+                Submit
+              </button>
+            )}
+          </div>
+        </form>
+      ) : (
+        <div>Thankyou</div>
+      )}
     </>
   );
 }
