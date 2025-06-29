@@ -3,8 +3,21 @@ import "./App.css";
 import Form from "./form/Form";
 import { FormContext } from "./context/formContext";
 
+export type formDataType = {
+  childName: string;
+  age: string;
+  diagnosis: string;
+  schoolType: string;
+  supportType: [];
+  frequency: string;
+  requirements: string;
+  parentName: string;
+  email: string;
+  contact: string;
+};
+
 function App() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<formDataType>({
     childName: "",
     age: "",
     diagnosis: "",

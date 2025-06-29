@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { FormContext } from "../context/formContext";
+import type { formDataType } from "../App";
 
 export default function ServiceNeeds() {
   const {
@@ -23,20 +24,26 @@ export default function ServiceNeeds() {
     if (name == "supportType") {
       if (value == "") {
         setSupportTypeError(true);
-        setFormData((formData) => ({ ...formData, [name]: update }));
+        setFormData((formData: formDataType) => ({
+          ...formData,
+          [name]: value,
+        }));
       } else {
         const update: string[] = [...support, value];
         setSupport(update);
         setSupportTypeError(false);
-        setFormData((formData) => ({ ...formData, [name]: update }));
+        setFormData((formData: formDataType) => ({
+          ...formData,
+          [name]: update,
+        }));
       }
     } else if (name == "frequency" && value == "") {
       setFrequencyError(true);
-      setFormData((formData) => ({ ...formData, [name]: value }));
+      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
     } else {
       setFrequencyError(false);
       setRequirementsError(false);
-      setFormData((formData) => ({ ...formData, [name]: value }));
+      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
     }
   };
 

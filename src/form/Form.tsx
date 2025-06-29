@@ -3,6 +3,7 @@ import ServiceNeeds from "./ServiceNeeds";
 import ParentDetail from "./ParentsDetail";
 import { FormContext } from "../context/formContext";
 import "./formStyles.css";
+import type { formDataType } from "../App";
 
 export default function Form() {
   const {
@@ -41,16 +42,19 @@ export default function Form() {
         value == ""
       ) {
         setChildNameError(false);
-        setFormData((formData) => ({ ...formData, [name]: value }));
+        setFormData((formData: formDataType) => ({
+          ...formData,
+          [name]: value,
+        }));
       }
     } else if (name == "age" && value == "") {
       setAgeError(true);
-      setFormData((formData) => ({ ...formData, [name]: value }));
+      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
     } else {
       setAgeError(false);
       setDiagnosisError(false);
       setSchoolTypeError(false);
-      setFormData((formData) => ({ ...formData, [name]: value }));
+      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
     }
   };
 
@@ -131,12 +135,11 @@ export default function Form() {
       setEmailError(false);
       setParentNameError(false);
       setFinalOutput(true);
-      console.log(formData);
     }
 
     e.preventDefault();
   };
-  console.log(formData);
+
   return (
     <>
       {!finalOutput ? (
