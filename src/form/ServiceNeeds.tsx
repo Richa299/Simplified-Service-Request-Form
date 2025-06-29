@@ -30,8 +30,8 @@ export default function ServiceNeeds() {
         setSupportTypeError(false);
         setFormData((formData) => ({ ...formData, [name]: update }));
       }
-    } else if (value == "") {
-      setRequirementsError(true);
+    } else if (name == "frequency" && value == "") {
+      setFrequencyError(true);
       setFormData((formData) => ({ ...formData, [name]: value }));
     } else {
       setFrequencyError(false);
@@ -70,6 +70,7 @@ export default function ServiceNeeds() {
             value={formData.frequency}
             className="border-2"
           >
+            <option value="">Select</option>
             <option value="Daily">Daily</option>
             <option value="2-3 times per week">2-3 times per week</option>
             <option value="Weekly">Weekly</option>

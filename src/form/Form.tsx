@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import ServiceNeeds from "./ServiceNeeds";
 import ParentDetail from "./ParentsDetail";
 import { FormContext } from "../context/formContext";
+import "./formStyles.css";
 
 export default function Form() {
   const {
@@ -118,7 +119,7 @@ export default function Form() {
     }
   };
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleSubmit = (e: React.MouseEvent) => {
     if (formData.parentName == "") {
       setParentNameError(true);
     } else if (formData.email == "") {
@@ -135,10 +136,11 @@ export default function Form() {
 
     e.preventDefault();
   };
+  console.log(formData);
   return (
     <>
       {!finalOutput ? (
-        <form className="bg-yellow-300 rounded-sm p-4 w-lg h-80 items-start">
+        <form className="bg-[#b389d9] rounded-sm p-4 sm:w-96 w-[300px] h-[400px] items-start">
           {!shift && count == 1 ? (
             <>
               <h3 className="text-lg font-bold"> Child Details</h3>
@@ -183,7 +185,7 @@ export default function Form() {
                     value={formData.diagnosis}
                     className="border-2"
                   >
-                    <option>Select</option>
+                    <option value="">Select</option>
                     <option value="Autism Spectrum Disorder">
                       Autism Spectrum Disorder
                     </option>
@@ -203,6 +205,7 @@ export default function Form() {
                   <label>
                     Mainstream School
                     <input
+                      className="radio-input"
                       name="schoolType"
                       type="radio"
                       value="Mainstream School"
@@ -213,6 +216,7 @@ export default function Form() {
                   <label>
                     Mainstream School with Learning Support
                     <input
+                      className="radio-input"
                       type="radio"
                       name="schoolType"
                       value="Mainstream School with Learning Support"
@@ -246,7 +250,7 @@ export default function Form() {
                 Next
               </button>
             ) : (
-              <button onClick={handleClick} disabled={disable}>
+              <button onClick={handleSubmit} disabled={disable}>
                 Submit
               </button>
             )}

@@ -1,0 +1,17 @@
+@reference "tailwindcss";
+label {
+  @apply text-white;
+}
+input,
+select {
+  @apply w-32 sm:w-80 text-black;
+}
+form > div:nth-of-type(-n + 4) {
+  @apply mt-4;
+}
+label > label {
+  @apply flex;
+}
+.radio-input {
+  @apply w-[10px] ml-2;
+}
