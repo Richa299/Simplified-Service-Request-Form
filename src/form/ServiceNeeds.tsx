@@ -6,50 +6,50 @@ export default function ServiceNeeds() {
   const { formData, setFormData, validationError, setValidationError } =
     useContext(FormContext);
   const [support, setSupport] = useState<string[]>([]);
+  let supportTypeError: boolean = false;
+  let frequencyError: boolean = false;
+  let requirementsError: boolean = false;
 
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
+    let update: string[] = [];
     const { name, value } = e.target;
+
     if (name == "supportType") {
+      update = [...support, value];
       if (value == "") {
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          supportTypeError: true,
-        }));
-        setFormData((formData: formDataType) => ({
-          ...formData,
-          [name]: value,
-        }));
+        supportTypeError = true;
       } else {
-        const update: string[] = [...support, value];
         setSupport(update);
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          supportTypeError: false,
-        }));
+        supportTypeError = false;
         setFormData((formData: formDataType) => ({
           ...formData,
           [name]: update,
         }));
       }
     } else if (name == "frequency" && value == "") {
-      setValidationError((validationError: formValidationErrorType) => ({
-        ...validationError,
-        frequencyError: true,
-      }));
-      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
-    } else {
-      setValidationError((validationError: formValidationErrorType) => ({
-        ...validationError,
-        frequencyError: false,
-        requirementsError: false,
-      }));
-
-      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
+      frequencyError = true;
     }
+
+    setValidationError((validationError: formValidationErrorType) => ({
+      ...validationError,
+      supportTypeError: supportTypeError,
+      frequencyError: frequencyError,
+      requirementsError: requirementsError,
+    }));
+
+    update.length > 0
+      ? setFormData((formData: formDataType) => ({
+          ...formData,
+          [name]: update,
+        }))
+      : setFormData((formData: formDataType) => ({
+          ...formData,
+          [name]: value,
+        }));
   };
 
   return (

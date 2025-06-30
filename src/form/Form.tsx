@@ -21,6 +21,13 @@ export default function Form() {
   const [shift, setShift] = useState(false);
   const [count, setCount] = useState(1);
   const [disableNext, setDisableNext] = useState(false);
+  let childNameError: boolean = false;
+  let ageError: boolean = false;
+  let diagnosisError: boolean = false;
+  let schoolTypeError: boolean = false;
+  let supportTypeError: boolean = false;
+  let frequencyError: boolean = false;
+  let requirementsError: boolean = false;
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -35,130 +42,67 @@ export default function Form() {
         condition == 32 ||
         value == ""
       ) {
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          childNameError: false,
-        }));
-        setFormData((formData: formDataType) => ({
-          ...formData,
-          [name]: value,
-        }));
+        childNameError = false;
       }
     } else if (name == "age" && value == "") {
-      setValidationError((validationError: formValidationErrorType) => ({
-        ...validationError,
-        ageError: true,
-      }));
-      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
-    } else {
-      setValidationError((validationError: formValidationErrorType) => ({
-        ...validationError,
-        ageError: false,
-        diagnosisError: false,
-        schoolTypeError: false,
-      }));
-
-      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
+      ageError = true;
     }
+
+    setValidationError((validationError: formValidationErrorType) => ({
+      ...validationError,
+      ageError: ageError,
+      diagnosisError: diagnosisError,
+      schoolTypeError: schoolTypeError,
+    }));
+
+    setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
   };
 
   const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (count == 1) {
       if (formData.childName == "") {
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          childNameError: true,
-        }));
+        childNameError = true;
       } else if (formData.age == "" || Number(formData.age) > 120) {
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          ageError: true,
-        }));
+        ageError = true;
       } else if (formData.diagnosis == "") {
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          diagnosisError: true,
-        }));
+        diagnosisError = true;
       } else if (formData.schoolType == "") {
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          schoolTypeError: true,
-        }));
+        schoolTypeError = true;
       } else {
         setDisableNext(false);
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          childNameError: false,
-          ageError: false,
-          diagnosisError: false,
-          schoolTypeError: false,
-        }));
-
         if (count < 3) {
           setShift(true);
           setCount((count) => count + 1);
         }
       }
-    } else if (count == 3) {
-      if (formData.parentName == "")
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          parentNameError: true,
-        }));
-      else if (formData.email == "")
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          emailError: true,
-        }));
-      else if (formData.contact == "")
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          contactsError: true,
-        }));
-      else {
-        setDisableNext(false);
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          parentNameError: false,
-          emailError: false,
-          contactsError: false,
-        }));
-
-        if (count < 3) {
-          setShift(true);
-          setCount((count) => count + 1);
-        }
-      }
-    } else {
+      setValidationError((validationError: formValidationErrorType) => ({
+        ...validationError,
+        childNameError: childNameError,
+        ageError: ageError,
+        diagnosisError: diagnosisError,
+        schoolTypeError: schoolTypeError,
+      }));
+    }
+    if (count !== 1 && count !== 3) {
       if (formData.supportType.length == 0) {
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          supportTypeError: true,
-        }));
+        supportTypeError = true;
       } else if (formData.frequency == "") {
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          frequencyError: true,
-        }));
+        frequencyError = true;
       } else if (formData.requirements == "") {
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          requirementsError: true,
-        }));
+        requirementsError = true;
       } else {
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          supportTypeError: false,
-          frequencyError: false,
-          requirementsError: false,
-        }));
-
         if (count < 3) {
           setShift(true);
           setCount((count) => count + 1);
         }
       }
+      setValidationError((validationError: formValidationErrorType) => ({
+        ...validationError,
+        supportTypeError: supportTypeError,
+        frequencyError: frequencyError,
+        requirementsError: requirementsError,
+      }));
     }
   };
   const handlePreviousButtonClick = (
@@ -172,35 +116,32 @@ export default function Form() {
   };
 
   const handleSubmit = (e: React.MouseEvent) => {
-    if (formData.parentName == "") {
-      setValidationError((validationError: formValidationErrorType) => ({
-        ...validationError,
-        parentNameError: true,
-      }));
-    } else if (formData.email == "") {
-      setValidationError((validationError: formValidationErrorType) => ({
-        ...validationError,
-        emailError: true,
-      }));
-    } else if (formData.contact == "") {
-      setValidationError((validationError: formValidationErrorType) => ({
-        ...validationError,
-        contactsError: true,
-      }));
-    } else {
-      setValidationError((validationError: formValidationErrorType) => ({
-        ...validationError,
-        contactsError: false,
-        emailError: false,
-        parentNameError: false,
-      }));
+    let parentNameError: boolean = false;
+    let emailError: boolean = false;
+    let contactError: boolean = false;
 
+    if (formData.parentName == "") {
+      parentNameError = true;
+    } else if (formData.email == "") {
+      emailError = true;
+    } else if (formData.contact == "") {
+      contactError = true;
+    } else {
+      parentNameError = false;
+      emailError = false;
+      contactError = false;
       setFinalOutput(true);
     }
+    setValidationError((validationError) => ({
+      ...validationError,
+      parentNameError: parentNameError,
+      emailError: emailError,
+      contactsError: contactError,
+    }));
 
     e.preventDefault();
   };
-  console.log(validationError);
+
   return (
     <>
       {!finalOutput ? (

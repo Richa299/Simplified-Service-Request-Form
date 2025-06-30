@@ -10,51 +10,37 @@ export default function ParentDetail() {
     validationError,
     setValidationError,
   } = useContext(FormContext);
+
+  let parentNameError: boolean = false;
+  let emailError: boolean = false;
+  let contactError: boolean = false;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     if (name == "contact") {
       if (value.length < 10) {
         setDisabled(true);
-
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          contactsError: true,
-        }));
-        setFormData((formData: formDataType) => ({
-          ...formData,
-          [name]: value,
-        }));
+        contactError = true;
       } else if (value.length > 10) {
         setDisabled(true);
       } else {
         setDisabled(false);
-
-        setValidationError((validationError: formValidationErrorType) => ({
-          ...validationError,
-          contactsError: false,
-        }));
+        contactError = false;
       }
     } else if (name == "parentName" && value == "") {
-      setValidationError((validationError: formValidationErrorType) => ({
-        ...validationError,
-        parentNameError: true,
-      }));
-      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
+      parentNameError = true;
     } else if (name == "email" && value == "") {
-      setValidationError((validationError: formValidationErrorType) => ({
-        ...validationError,
-        emailError: true,
-      }));
-      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
-    } else {
-      setValidationError((validationError: formValidationErrorType) => ({
-        ...validationError,
-        parentNameError: false,
-        emailError: false,
-      }));
-      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
+      emailError = true;
     }
+
+    setValidationError((validationError: formValidationErrorType) => ({
+      ...validationError,
+      contactsError: contactError,
+      parentNameError: parentNameError,
+      emailError: emailError,
+    }));
+    setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
   };
 
   return (
