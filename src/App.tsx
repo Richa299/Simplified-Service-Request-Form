@@ -15,6 +15,18 @@ export type formDataType = {
   email: string;
   contact: string;
 };
+export type formValidationErrorType = {
+  childName: boolean;
+  age: boolean;
+  diagnosis: boolean;
+  schoolType: boolean;
+  supportType: boolean;
+  frequency: boolean;
+  requirements: boolean;
+  parentName: boolean;
+  email: boolean;
+  contact: boolean;
+};
 
 function App() {
   const [formData, setFormData] = useState<formDataType>({
@@ -30,12 +42,18 @@ function App() {
     contact: "",
   });
   const [disable, setDisabled] = useState(false);
-  const [supportTypeError, setSupportTypeError] = useState(false);
-  const [frequencyError, setFrequencyError] = useState(false);
-  const [requirementsError, setRequirementsError] = useState(false);
-  const [parentNameError, setParentNameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [contactsError, setContactsError] = useState(false);
+  const [validationError, setValidationError] = useState({
+    childNameError: false,
+    ageError: false,
+    diagnosisError: false,
+    schoolTypeError: false,
+    supportTypeError: false,
+    frequencyError: false,
+    requirementsError: false,
+    parentNameError: false,
+    emailError: false,
+    contactsError: false,
+  });
   const [finalOutput, setFinalOutput] = useState(false);
   return (
     <>
@@ -45,18 +63,8 @@ function App() {
           setFormData,
           disable,
           setDisabled,
-          supportTypeError,
-          setSupportTypeError,
-          frequencyError,
-          setFrequencyError,
-          requirementsError,
-          setRequirementsError,
-          setParentNameError,
-          parentNameError,
-          setEmailError,
-          emailError,
-          setContactsError,
-          contactsError,
+          validationError,
+          setValidationError,
           setFinalOutput,
           finalOutput,
         }}

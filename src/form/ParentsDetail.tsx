@@ -1,17 +1,14 @@
 import { useContext } from "react";
 import { FormContext } from "../context/formContext";
+import type { formDataType, formValidationErrorType } from "../App";
 
 export default function ParentDetail() {
   const {
     formData,
     setFormData,
     setDisabled,
-    setParentNameError,
-    setEmailError,
-    setContactsError,
-    parentNameError,
-    emailError,
-    contactsError,
+    validationError,
+    setValidationError,
   } = useContext(FormContext);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -19,24 +16,44 @@ export default function ParentDetail() {
     if (name == "contact") {
       if (value.length < 10) {
         setDisabled(true);
-        setContactsError(true);
-        setFormData((formData) => ({ ...formData, [name]: value }));
+
+        setValidationError((validationError: formValidationErrorType) => ({
+          ...validationError,
+          contactsError: true,
+        }));
+        setFormData((formData: formDataType) => ({
+          ...formData,
+          [name]: value,
+        }));
       } else if (value.length > 10) {
         setDisabled(true);
       } else {
         setDisabled(false);
-        setContactsError(false);
+
+        setValidationError((validationError: formValidationErrorType) => ({
+          ...validationError,
+          contactsError: false,
+        }));
       }
     } else if (name == "parentName" && value == "") {
-      setParentNameError(true);
-      setFormData((formData) => ({ ...formData, [name]: value }));
+      setValidationError((validationError: formValidationErrorType) => ({
+        ...validationError,
+        parentNameError: true,
+      }));
+      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
     } else if (name == "email" && value == "") {
-      setEmailError(true);
-      setFormData((formData) => ({ ...formData, [name]: value }));
+      setValidationError((validationError: formValidationErrorType) => ({
+        ...validationError,
+        emailError: true,
+      }));
+      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
     } else {
-      setParentNameError(false);
-      setEmailError(false);
-      setFormData((formData) => ({ ...formData, [name]: value }));
+      setValidationError((validationError: formValidationErrorType) => ({
+        ...validationError,
+        parentNameError: false,
+        emailError: false,
+      }));
+      setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
     }
   };
 
@@ -53,7 +70,7 @@ export default function ParentDetail() {
             className="border-2"
           />
         </label>
-        {parentNameError && (
+        {validationError.parentNameError && (
           <p className="text-red-400">Kindly enter parent name</p>
         )}
       </div>
@@ -68,7 +85,9 @@ export default function ParentDetail() {
             className="border-2"
           />
         </label>
-        {emailError && <p className="text-red-400">Kindly enter mail id</p>}
+        {validationError.emailError && (
+          <p className="text-red-400">Kindly enter mail id</p>
+        )}
       </div>
       <div>
         <label>
@@ -81,7 +100,9 @@ export default function ParentDetail() {
             className="border-2"
           />
         </label>
-        {contactsError && <p className="text-red-400">Kindly give contact</p>}
+        {validationError.contactsError && (
+          <p className="text-red-400">Kindly give contact</p>
+        )}
       </div>
     </>
   );

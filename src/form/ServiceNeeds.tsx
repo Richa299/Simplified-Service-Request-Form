@@ -1,18 +1,10 @@
 import { useContext, useState } from "react";
 import { FormContext } from "../context/formContext";
-import type { formDataType } from "../App";
+import type { formDataType, formValidationErrorType } from "../App";
 
 export default function ServiceNeeds() {
-  const {
-    formData,
-    setFormData,
-    supportTypeError,
-    frequencyError,
-    requirementsError,
-    setSupportTypeError,
-    setFrequencyError,
-    setRequirementsError,
-  } = useContext(FormContext);
+  const { formData, setFormData, validationError, setValidationError } =
+    useContext(FormContext);
   const [support, setSupport] = useState<string[]>([]);
 
   const handleChange = (
@@ -23,7 +15,10 @@ export default function ServiceNeeds() {
     const { name, value } = e.target;
     if (name == "supportType") {
       if (value == "") {
-        setSupportTypeError(true);
+        setValidationError((validationError: formValidationErrorType) => ({
+          ...validationError,
+          supportTypeError: true,
+        }));
         setFormData((formData: formDataType) => ({
           ...formData,
           [name]: value,
@@ -31,18 +26,28 @@ export default function ServiceNeeds() {
       } else {
         const update: string[] = [...support, value];
         setSupport(update);
-        setSupportTypeError(false);
+        setValidationError((validationError: formValidationErrorType) => ({
+          ...validationError,
+          supportTypeError: false,
+        }));
         setFormData((formData: formDataType) => ({
           ...formData,
           [name]: update,
         }));
       }
     } else if (name == "frequency" && value == "") {
-      setFrequencyError(true);
+      setValidationError((validationError: formValidationErrorType) => ({
+        ...validationError,
+        frequencyError: true,
+      }));
       setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
     } else {
-      setFrequencyError(false);
-      setRequirementsError(false);
+      setValidationError((validationError: formValidationErrorType) => ({
+        ...validationError,
+        frequencyError: false,
+        requirementsError: false,
+      }));
+
       setFormData((formData: formDataType) => ({ ...formData, [name]: value }));
     }
   };
@@ -63,7 +68,7 @@ export default function ServiceNeeds() {
             <option value="Behavioral Therapy">Behavioral Therapy</option>
             <option value="Occupational Therapy">Occupational Therapy</option>
           </select>
-          {supportTypeError && (
+          {validationError.supportTypeError && (
             <p className="text-red-400">Kindly select the supportType</p>
           )}
         </label>
@@ -82,7 +87,7 @@ export default function ServiceNeeds() {
             <option value="2-3 times per week">2-3 times per week</option>
             <option value="Weekly">Weekly</option>
           </select>
-          {frequencyError && (
+          {validationError.frequencyError && (
             <p className="text-red-400">Kindly select the frequency</p>
           )}
         </label>
@@ -97,7 +102,7 @@ export default function ServiceNeeds() {
             className="border-2"
           />
         </label>
-        {requirementsError && (
+        {validationError.requirementsError && (
           <p className="text-red-400">Kindly fill in the requirements</p>
         )}
       </div>
